@@ -1,0 +1,26 @@
+/* daisyUI Tailwind Plugin, restricted to the two themes yokerhood.com uses.
+   Nord as the default (light-ish, cool-toned) theme, Abyss as its dark
+   counterpart for `prefers-color-scheme: dark` -- this is daisyUI's own
+   documented pairing, not a custom palette, so it costs nothing to keep in
+   sync with upstream.
+
+   Import this file as a relative path from a consuming app's own
+   assets/css/app.css, straight to this repository's sibling checkout
+   (e.g. ../Elixir/yokerhood_ui, matching the mix.exs path: dependency),
+   not through `deps/` or `_build/`: Mix path dependencies do not get a
+   `deps/<name>` symlink (only a `_build/<env>/lib/<name>` one, which
+   would make the import MIX_ENV-dependent). For example:
+
+     @import "../../../Elixir/yokerhood_ui/priv/tailwind/nord_abyss_theme.css";
+
+   No special Tailwind plugin resolution is needed for this file itself,
+   only for the `daisyui` package import below, which resolves against
+   the *consuming app's* own `deps/daisyui`.
+
+   Server-side `data-theme` switching (no FOUC, no client-side
+   localStorage) is each consuming app's own concern; see
+   Yokerhood.Plug.Theme in yokerhood.com for the reference implementation.
+*/
+@plugin "daisyui/packages/bundle/daisyui" {
+  themes: nord --default, abyss --prefersdark;
+}
