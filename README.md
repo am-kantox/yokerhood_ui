@@ -1,12 +1,14 @@
 # YokerhoodUI
 
-Shared design-system assets (header/footer HEEx components, the
-Nord/Abyss daisyUI theme) for Phoenix sites that want yokerhood.com's
-visual identity, extracted out of that repository. See the `YokerhoodUI`
-module doc for the full rationale.
+Shared design-system assets (header/footer HEEx components, the Nord
+daisyUI theme -- genuinely Nord for both the light `nord` and the dark
+`abyss` variant, see `priv/tailwind/nord_abyss_theme.css`) for Phoenix
+sites that want yokerhood.com's visual identity, extracted out of that
+repository. See the `YokerhoodUI` module doc for the full rationale.
 
-This repository has no hosted git remote yet -- only local git history --
-so it is currently consumed as a `path:` dependency:
+This repository has a git remote (github.com/am-kantox/yokerhood_ui) but
+is not published to Hex, so it is currently consumed as a `path:`
+dependency:
 
 ```elixir
 # mix.exs, in a sibling checkout at ../Elixir/yokerhood_ui

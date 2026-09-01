@@ -1,8 +1,15 @@
-/* daisyUI Tailwind Plugin, restricted to the two themes yokerhood.com uses.
-   Nord as the default (light-ish, cool-toned) theme, Abyss as its dark
-   counterpart for `prefers-color-scheme: dark` -- this is daisyUI's own
-   documented pairing, not a custom palette, so it costs nothing to keep in
-   sync with upstream.
+/* Nord as both the light AND dark theme: daisyUI's own built-in `nord`
+   theme (light, cool-toned, genuinely derived from the Nord palette) as
+   the default, paired with a hand-authored `abyss` theme below using the
+   canonical Nord hex values directly (Polar Night backgrounds, Snow Storm
+   text, Frost/Aurora accents) -- NOT daisyUI's own stock `abyss` theme,
+   which is an unrelated neon-on-navy palette that happened to share the
+   `--prefersdark` slot in earlier revisions of this file. Keeping the
+   *name* `abyss` (rather than renaming to e.g. `nord-dark`) avoids
+   touching every place that already spells it out server-side
+   (`Yokerhood.Plug.Theme`), client-side (`assets/js/theme.js`) and in
+   the consuming app's own CSS (`@custom-variant dark` in
+   yokerhood.com's assets/css/app.css) -- only the colour values change.
 
    Import this file as a relative path from a consuming app's own
    assets/css/app.css, straight to this repository's sibling checkout
@@ -22,5 +29,48 @@
    Yokerhood.Plug.Theme in yokerhood.com for the reference implementation.
 */
 @plugin "daisyui/packages/bundle/daisyui" {
-  themes: nord --default, abyss --prefersdark;
+  themes: nord --default;
+}
+
+/* `abyss`: Nord's own Polar Night/Snow Storm/Frost/Aurora palette,
+   applied as a dark daisyUI theme (`--prefersdark`, so `system` +
+   `prefers-color-scheme: dark` picks it up with no `data-theme`
+   attribute at all -- see the built-in `nord` theme above for the light
+   half of that same fallback). Plain hex, not oklch: daisyUI's generator
+   normally emits oklch, but any valid CSS colour works for these custom
+   properties, and hex keeps the values directly traceable to the
+   canonical Nord reference (https://www.nordtheme.com/docs/colors-and-palettes). */
+@plugin "daisyui/packages/bundle/daisyui-theme" {
+  name: "abyss";
+  default: false;
+  prefersdark: true;
+  color-scheme: "dark";
+  --color-base-100: #2e3440; /* nord0 -- Polar Night, page background */
+  --color-base-200: #3b4252; /* nord1 -- panels, code blocks */
+  --color-base-300: #434c5e; /* nord2 -- borders, dividers */
+  --color-base-content: #eceff4; /* nord6 -- Snow Storm, body text */
+  --color-primary: #5e81ac; /* nord10 -- Frost, links/buttons */
+  --color-primary-content: #eceff4;
+  --color-secondary: #88c0d0; /* nord8 -- Frost cyan */
+  --color-secondary-content: #2e3440;
+  --color-accent: #8fbcbb; /* nord7 -- Frost teal */
+  --color-accent-content: #2e3440;
+  --color-neutral: #434c5e; /* nord2 */
+  --color-neutral-content: #eceff4;
+  --color-info: #81a1c1; /* nord9 -- Frost blue */
+  --color-info-content: #2e3440;
+  --color-success: #a3be8c; /* nord14 -- Aurora green */
+  --color-success-content: #2e3440;
+  --color-warning: #ebcb8b; /* nord13 -- Aurora yellow */
+  --color-warning-content: #2e3440;
+  --color-error: #bf616a; /* nord11 -- Aurora red */
+  --color-error-content: #eceff4;
+  --radius-selector: 1rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
 }
