@@ -12,7 +12,8 @@ defmodule YokerhoodUI.Chrome do
 
   @doc """
   Renders the site header: a `navbar` with a home link/brand on the left
-  and caller-supplied nav content (as `<li>` items) on the right.
+  and caller-supplied nav content (as `<li>` items) plus optional
+  right-aligned actions (e.g. a theme switcher) on the right.
 
   ## Examples
 
@@ -20,6 +21,9 @@ defmodule YokerhoodUI.Chrome do
         <:nav>
           <li><a href="/blog">Blog</a></li>
         </:nav>
+        <:actions>
+          <.theme_switcher theme={@theme} />
+        </:actions>
       </YokerhoodUI.Chrome.header>
   """
   attr(:home_href, :string, default: "/", doc: "the href for the brand/home link")
@@ -27,6 +31,10 @@ defmodule YokerhoodUI.Chrome do
   attr(:nav_label, :string, default: "Primary", doc: "the nav's accessible label")
 
   slot(:nav, required: true, doc: "the header's own <li> nav items")
+
+  slot(:actions,
+    doc: "optional right-aligned actions (e.g. a theme switcher), separated from the nav"
+  )
 
   def header(assigns) do
     ~H"""
@@ -40,11 +48,16 @@ defmodule YokerhoodUI.Chrome do
           {@brand}
         </a>
       </div>
-      <nav aria-label={@nav_label} class="flex-none">
-        <ul class="flex flex-column px-1 space-x-4 items-center">
-          {render_slot(@nav)}
-        </ul>
-      </nav>
+      <div class="flex-none flex items-center gap-4">
+        <nav aria-label={@nav_label} class="flex-none">
+          <ul class="flex flex-column px-1 space-x-4 items-center">
+            {render_slot(@nav)}
+          </ul>
+        </nav>
+        <div :if={@actions != []} class="flex-none border-l border-base-300 pl-4">
+          {render_slot(@actions)}
+        </div>
+      </div>
     </header>
     """
   end

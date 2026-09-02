@@ -19,6 +19,19 @@ defmodule YokerhoodUI.ChromeTest do
     """
   end
 
+  defp header_with_actions(assigns) do
+    ~H"""
+    <Chrome.header brand={@brand} home_href={@home_href}>
+      <:nav>
+        <li><a href="/blog">Blog</a></li>
+      </:nav>
+      <:actions>
+        <button type="button">Toggle theme</button>
+      </:actions>
+    </Chrome.header>
+    """
+  end
+
   defp footer_with_no_nav(assigns) do
     ~H"""
     <Chrome.footer>
@@ -53,6 +66,14 @@ defmodule YokerhoodUI.ChromeTest do
       html = render_component(&header_with_nav/1, brand: "Test Site", home_href: "/start")
 
       assert html =~ ~s(href="/start")
+    end
+
+    test "renders right-aligned actions separated from the nav" do
+      html = render_component(&header_with_actions/1, brand: "Test Site", home_href: "/")
+
+      assert html =~ "Toggle theme"
+      # The actions sit in their own container, after the nav.
+      assert html =~ ~s(border-l border-base-300 pl-4)
     end
   end
 
