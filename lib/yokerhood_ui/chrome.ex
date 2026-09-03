@@ -27,7 +27,7 @@ defmodule YokerhoodUI.Chrome do
       </YokerhoodUI.Chrome.header>
   """
   attr(:home_href, :string, default: "/", doc: "the href for the brand/home link")
-  attr(:brand, :string, required: true, doc: "the site name/brand text")
+  attr(:brand, :any, required: true, doc: "the site name/brand text or slot")
   attr(:nav_label, :string, default: "Primary", doc: "the nav's accessible label")
 
   slot(:nav, required: true, doc: "the header's own <li> nav items")
